@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import React, { useState  } from "react";
+import React, { useState } from "react";
 
 // Utility function to get a random number between min and max
 const getRandomNumber = (min: number, max: number) =>
@@ -18,7 +18,7 @@ const OuiFallEffect = () => {
     }[]
   >([]);
 
-    const [images, setImages] = useState<
+  const [images, setImages] = useState<
     {
       id: number;
       size: number;
@@ -64,7 +64,7 @@ const OuiFallEffect = () => {
   // Function to play sound for each new "oui" element
   const playSound = (duration: number) => {
     const audio = new Audio("/sounds/oui-sound.mp3"); // Make sure the sound file is in the public folder
-    audio.volume = 0.2
+    audio.volume = 0.2;
     audio.play();
 
     // Stop the sound after it finishes (matching the span's lifetime)
@@ -83,15 +83,13 @@ const OuiFallEffect = () => {
       calcDistance(last.starPosition, mousePosition) >=
       config.minimumDistanceBetweenOuis;
     const hasBeenLongEnough =
-      calcElapsedTime(last.starTimestamp, now) >
-      config.minimumTimeBetweenOuis;
+      calcElapsedTime(last.starTimestamp, now) > config.minimumTimeBetweenOuis;
 
     if (hasMovedFarEnough || hasBeenLongEnough) {
       last.starTimestamp = now;
       last.starPosition = mousePosition;
 
-
-      handleAddImage()
+      handleAddImage();
 
       const ouiId = now;
       const size = getRandomNumber(8, 24); // Random font size between 12px and 24px
@@ -105,7 +103,14 @@ const OuiFallEffect = () => {
       // Add new "oui" span to the array
       setOuis((prev) => [
         ...prev,
-        { x: mousePosition.x, y: mousePosition.y, id: ouiId, size, animationType, animationDuration },
+        {
+          x: mousePosition.x,
+          y: mousePosition.y,
+          id: ouiId,
+          size,
+          animationType,
+          animationDuration,
+        },
       ]);
 
       // Play sound with the same duration as the animation
@@ -118,7 +123,7 @@ const OuiFallEffect = () => {
     }
   };
 
-    const handleAddImage = () => {
+  const handleAddImage = () => {
     const now = new Date().getTime();
     const id = now;
 
@@ -146,8 +151,6 @@ const OuiFallEffect = () => {
     }, animationDuration * 1000);
   };
 
-
-
   return (
     <div
       onMouseMove={handlemousemove}
@@ -168,7 +171,7 @@ const OuiFallEffect = () => {
         </span>
       ))}
 
-            {images.map((image) => (
+      {images.map((image) => (
         <img
           key={image.id}
           src="/images/screaming-cat.gif" // Path to your GIF
@@ -219,7 +222,7 @@ const OuiFallEffect = () => {
           }
         }
 
-       @keyframes floatUp {
+        @keyframes floatUp {
           0% {
             transform: translateY(0);
             opacity: 1;
@@ -228,14 +231,13 @@ const OuiFallEffect = () => {
             transform: translateY(-100vh); /* Float upwards across the screen */
             opacity: 0; /* Fade out */
           }
-        } 
+        }
       `}</style>
       <div className="w-full h-screen flex justify-center items-center">
-      <h1>Move your Mouse or left click to see the effect.</h1>
+        <h1>Move your Mouse or left click to see the effect.</h1>
       </div>
     </div>
   );
 };
 
 export default OuiFallEffect;
-
