@@ -234,7 +234,7 @@ const OuiFallEffect = () => {
         }
       `}</style>
       <div className="w-full h-screen flex justify-center items-center">
-        <h1>Move your Mouse or left click to see the effect.</h1>
+        <h1>Move your Mouse to see the effect.</h1>
       </div>
     </div>
   );
