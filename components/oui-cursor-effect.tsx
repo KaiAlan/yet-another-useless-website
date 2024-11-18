@@ -54,7 +54,7 @@ const OuiFallEffect = () => {
   // Function to play sound for each new "oui" element
   const playSound = (duration: number) => {
     const audio = new Audio("/sounds/oui-sound.mp3"); // Make sure the sound file is in the public folder
-    audio.volume = 0.5
+    audio.volume = 0.3
     audio.play();
 
     // Stop the sound after it finishes (matching the span's lifetime)
