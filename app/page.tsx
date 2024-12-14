@@ -55,4 +55,8 @@ const Navs = [
     name: "Reaveal Paragraph",
     href: "/reveal-texts",
   },
+  {
+    name: "Tilt Perspective Card",
+    href: "/tilt-perspective-card",
+  },
 ];
