@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
+import Link from "next/link";
 // import Image from "next/image";
 import React, { useRef, useState } from "react";
 
@@ -94,6 +95,8 @@ const PixelifyImage: React.FC = () => {
 
   return (
     <div className="relative min-h-screen w-full flex flex-col items-center bg-black py-10 pt-20 px-2 gap-4 mx-auto">
+
+      {/* SVG bg */}
       {/* <img
         src='/svg/ooorganize.svg'
         alt="bg"
@@ -101,6 +104,21 @@ const PixelifyImage: React.FC = () => {
         height={0}
         className="absolute top-0 left-0 w-[600px] h-[600px] bg-gradient-to-br from-black/100 to-black/0"
       /> */}
+
+      {/* Credits - Links - twitter and github */}
+
+      <div className="fixed bottom-12 right-6">
+        <Link
+        href="https://x.com/kaialan__"
+        className="px-8 py-4 bg-slate-700/20 rounded-lg backdrop-blur-lg"
+      >
+        <span>Made with 💙 by kaialan</span>
+      </Link>
+
+      <div>
+        
+      </div>
+      </div>
       <h1 className="text-5xl font-bold mb-4">Fast Image Pixelify</h1>
 
       <div className="w-full flex flex-col justify-center items-center gap-6 mb-8 mx-auto">
