@@ -59,4 +59,8 @@ const Navs = [
     name: "Tilt Perspective Card",
     href: "/tilt-perspective-card",
   },
+  {
+    name: "Pixelify Image Fast",
+    href: "/pixelify",
+  },
 ];
