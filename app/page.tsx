@@ -63,4 +63,8 @@ const Navs = [
     name: "Pixelify Image Fast",
     href: "/pixelify",
   },
+  {
+    name: "Tournament Bracket Generator",
+    href: "/tournament",
+  },
 ];

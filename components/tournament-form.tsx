@@ -1,35 +1,54 @@
 // components/tournament-form.tsx
-"use client"
+"use client";
 
-import { Button } from "@/components/ui/button"
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-import { useForm } from "react-hook-form"
-import { z } from "zod"
-import { zodResolver } from "@hookform/resolvers/zod"
+import { Button } from "@/components/ui/button";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { useForm, useFieldArray } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Plus, X } from "lucide-react";
+import {
+  tournamentBracketFormSchema,
+  tournamentBracketFormSchemaType,
+} from "@/schema/tournament-bracket-schema";
 
-
-const formSchema = z.object({
-  tournamentName: z.string().min(2, "Tournament name must be at least 2 characters"),
-  gameType: z.string().min(2, "Game type is required"),
-  participants: z.number().min(2, "Minimum 2 participants required"),
-  startDate: z.string().nonempty("Start date is required"),
-})
-
-export function TournamentForm({ onSubmit }: { onSubmit: (values: z.infer<typeof formSchema>) => void }) {
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+export function TournamentForm({
+  onSubmit,
+}: {
+  onSubmit: (values: tournamentBracketFormSchemaType) => void;
+}) {
+  const form = useForm<tournamentBracketFormSchemaType>({
+    resolver: zodResolver(tournamentBracketFormSchema),
     defaultValues: {
       tournamentName: "",
       gameType: "",
-      participants: 8,
       startDate: "",
+      teams: [{ name: "" }, { name: "" }],
     },
-  })
+  });
+
+  const {
+    formState: { errors },
+  } = form;
+
+  const { fields, append, remove } = useFieldArray({
+    control: form.control,
+    name: "teams",
+  });
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 max-w-2xl mx-auto">
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="space-y-8 max-w-2xl mx-auto"
+      >
         <FormField
           control={form.control}
           name="tournamentName"
@@ -60,24 +79,6 @@ export function TournamentForm({ onSubmit }: { onSubmit: (values: z.infer<typeof
 
         <FormField
           control={form.control}
-          name="participants"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Number of Participants</FormLabel>
-              <FormControl>
-                <Input
-                  type="number"
-                  {...field}
-                  onChange={e => field.onChange(parseInt(e.target.value))}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
           name="startDate"
           render={({ field }) => (
             <FormItem>
@@ -90,8 +91,53 @@ export function TournamentForm({ onSubmit }: { onSubmit: (values: z.infer<typeof
           )}
         />
 
-        <Button type="submit">Generate Bracket</Button>
+        <div className="w-full space-y-4">
+          <FormLabel>Teams</FormLabel>
+          <div className="w-full grid grid-cols-4 gap-2 items-center">
+            {fields.map((field, index) => (
+              <div key={field.id} className="flex gap-2 items-center">
+                <FormControl>
+                  <Input
+                    placeholder={`Team ${index + 1} name`}
+                    {...form.register(`teams.${index}.name`)}
+                  />
+                </FormControl>
+                {fields.length > 2 && (
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => remove(index)}
+                  >
+                    <X className="h-4 w-4" />
+                  </Button>
+                )}
+                {errors.teams && (
+                  <p className="text-xs text-red-600">
+                    {errors.teams[index]?.message}
+                  </p>
+                )}
+              </div>
+            ))}
+          </div>
+          <Button
+            type="button"
+            variant="outline"
+            onClick={() => append({ name: "" })}
+            className="gap-2"
+          >
+            <Plus className="h-4 w-4" /> Add Team
+          </Button>
+          {form.formState.errors.teams && (
+            <p className="text-sm font-medium text-destructive">
+              {form.formState.errors.teams.message}
+            </p>
+          )}
+        </div>
+        <div className="flex flex-col gap-4">
+          <Button type="submit">Generate Bracket</Button>
+        </div>
       </form>
     </Form>
-  )
+  );
 }
